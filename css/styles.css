@@ -2,8 +2,8 @@
 * {
     padding: 0;
     margin: 0;
-    font-size: Hevetica;
-    color: #333;
+    font-size: Helvetica;
+    color: #000000;
     box-sizing: border-box;
 }
 
@@ -42,7 +42,7 @@ button:hover > i {
 
 button i {
     color: #102F5e;
-    font-size: bold;
+    font-weight: bold;
     pointer-events: none;
 }
 
@@ -54,7 +54,7 @@ input, select {
     display: none;
 }
 
-/* Tod header */
+/* Todo header */
 .todo-container {
     max-width: 450px;
     margin: 3rem auto;

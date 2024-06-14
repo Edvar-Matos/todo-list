@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,9 @@
     <!-- JS do projeto -->
     <script src="js/scripts.js" defer></script>
 </head>
+<body>
+    <div class="todo-container">
+        <header>
             <h1>Lista de Tarefas</h1>
         </header>
         <form id="todo-form">
@@ -22,7 +25,7 @@
                 </button>
             </div>
         </form>
-        <form id="edit-form" class="hide">
+        <!-- <form id="edit-form" class="hide">
             <p>Edite sua tarefa</p>
             <div class="form-control">
                 <input type="text" id="edit-input">
@@ -31,7 +34,7 @@
                 </button>
             </div>
             <button id="cancel-edit-btn">Cancelar</button>
-        </form>
+        </form> -->
         <div id="toolbar">
             <div id="search">
                 <h4>Pesquisar:</h4>
@@ -47,7 +50,7 @@
                 <select id="filter-select">
                     <option value="all">Todos</option>
                     <option value="done">Feitos</option>
-                    <option value="todo">Fazer</option>
+                    <option value="todo">A fazer</option>
                 </select>
             </div>
         </div>
