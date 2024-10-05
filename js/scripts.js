@@ -146,6 +146,9 @@ document.addEventListener("click", (e) => {
     parentEl.remove();
 
     removeTodoLocalStorage(todoTitle);
+
+    todoList.innerHTML = "";
+  loadTodos();
   }
 
   if (targetEl.classList.contains("edit-todo")) {
