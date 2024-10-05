@@ -2,9 +2,9 @@
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
-// const editForm = document.querySelector("#edit-form");
-// const editInput = document.querySelector("#edit-input");
-// const cancelEditBtn = document.querySelector("#cancel-edit-btn");
+const editForm = document.querySelector("#edit-form");
+const editInput = document.querySelector("#edit-input");
+const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 const filtertBtn = document.querySelector("#filter-select");
@@ -25,10 +25,10 @@ const saveTodo = (text, done = 0, save = 1) => {
   doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
   todo.appendChild(doneBtn);
 
-  // const editBtn = document.createElement("button");
-  // editBtn.classList.add("edit-todo");
-  // editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-  // todo.appendChild(editBtn);
+  const editBtn = document.createElement("button");
+  editBtn.classList.add("edit-todo");
+  editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+  todo.appendChild(editBtn);
 
   const deleteBtn = document.createElement("button");
   deleteBtn.classList.add("remove-todo");
@@ -61,11 +61,12 @@ const updateTodo = (text) => {
 
   todos.forEach((todo) => {
     let todoTitle = todo.querySelector("h3");
+    let originalText = todoTitle.innerText;
 
     if (todoTitle.innerText === oldInputValue) {
       todoTitle.innerText = text;
 
-      // updateTodoLocalStorage(oldInputValue, text);
+      updateTodoLocalStorage(originalText, text);
     }
   });
 };
@@ -111,7 +112,7 @@ const filterTodos = (filterValue) => {
       break;
 
     default:
-      breack;
+      break;
   }
 };
 
@@ -147,31 +148,31 @@ document.addEventListener("click", (e) => {
     removeTodoLocalStorage(todoTitle);
   }
 
-  // if (targetEl.classList.contains("edit-todo")) {
-  //   toggleForms();
+  if (targetEl.classList.contains("edit-todo")) {
+    toggleForms();
 
-  //   editInput.value = todoTitle;
-  //   oldInputValue = todoTitle;
-  // }
+    editInput.value = todoTitle;
+    oldInputValue = todoTitle;
+  }
 });
 
-// cancelEditBtn.addEventListener("click", (e) => {
-//   e.preventDefault();
+cancelEditBtn.addEventListener("click", (e) => {
+  e.preventDefault();
 
-//   toggleForms();
-// });
+  toggleForms();
+});
 
-// editForm.addEventListener("submit", (e) => {
-//   e.preventDefault();
+editForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-//   const editInputValue = editInput.value;
+  const editInputValue = editInput.value;
 
-//   if (editInputValue) {
-//     updateTodo(editInputValue);
-//   }
+  if (editInputValue) {
+    updateTodo(editInputValue);
+  }
 
-//   toggleForms();
-// });
+  toggleForms();
+});
 
 searchInput.addEventListener("keyup", (e) => {
   const search = e.target.value;
@@ -203,9 +204,12 @@ const getTodosLocalStorage = () => {
 const loadTodos = () => {
   const todos = getTodosLocalStorage();
 
-  todos.forEach((todo) => {
-    saveTodo(todo.text, todo.done, 0);
-  });
+  if (todos.length > 0) {
+    todoList.innerHTML = "";
+    todos.forEach((todo) => {
+      saveTodo(todo.text, todo.done, 0);
+    });
+  }
 };
 
 const saveTodoLocalStorage = (todo) => {
@@ -222,6 +226,12 @@ const removeTodoLocalStorage = (todoText) => {
   const filteredTodos = todos.filter((todo) => todo.text !== todoText);
 
   localStorage.setItem("todos", JSON.stringify(filteredTodos));
+
+  // Atualize a lista de itens
+  todoList.innerHTML = "";
+  filteredTodos.forEach((todo) => {
+    saveTodo(todo.text, todo.done, 0);
+  });
 };
 
 const updateTodoStatusLocalStorage = (todoText) => {
@@ -234,14 +244,23 @@ const updateTodoStatusLocalStorage = (todoText) => {
   localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-// const updateTodoLocalStorage = (todoOldText, todoNewText) => {
-//   const todos = getTodosLocalStorage();
+const updateTodoLocalStorage = (todoOldText, todoNewText) => {
+  const todos = getTodosLocalStorage();
 
-//   todos.map((todo) =>
-//     todo.Text === todoOldText ? (todo.text = todoNewText) : null
-//   );
+  const updatedTodos = todos.map((todo) => {
+    if (todo.text === todoOldText) {
+      todo.text = todoNewText;
+    }
+    return todo;
+  });
 
-//   localStorage.setItem("todos", JSON.stringify(todos));
-// };
+  localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
+  // Atualize a lista de itens
+  todoList.innerHTML = "";
+  updatedTodos.forEach((todo) => {
+    saveTodo(todo.text, todo.done, 0);
+  });
+};
 
 loadTodos();
